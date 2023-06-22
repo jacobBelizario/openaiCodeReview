@@ -13,7 +13,7 @@ const ghurl = core.getInput("ghurl") || "https://github.com";
 (async () => {
   try {
     const parsed_url = `https://github.com/${ghurl}`;
-    const ghtext = get_text_from_github(parsed_url);
+    // const ghtext = get_text_from_github(parsed_url);
     const model = new OpenAI({
       openAIApiKey: OPENAI_API_KEY,
       modelName: AI_MODEL,
@@ -27,7 +27,7 @@ const ghurl = core.getInput("ghurl") || "https://github.com";
       inputVariables: ["code"],
     });
 
-    const res = await prompt.format({ code: ghtext });
+    const res = await prompt.format({ code: `(a,b) => { return a+b }` });
     core.info(`result is ${res}`);
   } catch (error) {
     core.setFailed(error.message);
@@ -35,9 +35,9 @@ const ghurl = core.getInput("ghurl") || "https://github.com";
 })();
 
 function get_text_from_github(url) {
-  const rawUrl = url;
-  // .replace("github.com", "raw.githubusercontent.com")
-  // .replace("/blob/", "/");
+  const rawUrl = url
+    .replace("github.com", "raw.githubusercontent.com")
+    .replace("/blob/", "/");
   const headers = {
     Authorization: `Bearer ${ghtoken}`,
     Accept: "application/vnd.github+json",
