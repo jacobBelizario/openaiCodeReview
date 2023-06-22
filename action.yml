@@ -1,0 +1,8 @@
+name: "Open AI action code review"
+description: "given a api key and prompt do a code review during the pull request and post a comment"
+outputs:
+  ai_comment:
+    description: "Code review comment from AI"
+runs:
+  node: 16
+  main: index.js
