@@ -7,8 +7,8 @@ const DIFF_TO = core.getInput("diff_to") || "HEAD";
 
 (async () => {
   try {
-    core.debug(`Diff from: ${DIFF_FROM}`);
-    core.debug(`Diff to: ${DIFF_TO}`);
+    core.info(`Diff from: ${DIFF_FROM}`);
+    core.info(`Diff to: ${DIFF_TO}`);
   } catch (error) {
     core.setFailed(error.message);
   }
