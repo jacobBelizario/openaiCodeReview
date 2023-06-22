@@ -9,6 +9,10 @@ inputs:
     default: "https://github.com"
     description: "github url"
     required: false
+  diff_code:
+    default: "code"
+    description: "the code difference between two commits"
+    required: false
   current_sha:
     default: "none"
     description: "current sha"

@@ -9,6 +9,7 @@ const { PromptTemplate } = require("langchain/prompts");
 const OPENAI_API_KEY =
   core.getInput("openai_api_key", { required: true }) || "";
 const AI_MODEL = core.getInput("openai_model") || "gpt-3.5-turbo";
+const diff_code = core.getInput("diff_code" || "");
 const ghtoken = core.getInput("gh_token" || "");
 const ghurl = core.getInput("ghurl") || "https://github.com";
 (async () => {
@@ -29,12 +30,12 @@ const ghurl = core.getInput("ghurl") || "https://github.com";
     });
 
     const res = await prompt.format({ code: `(a,b) => { return a+b }` });
+    core.info(`Code: ${diff_code}`);
+    // const chain = new LLMChain({ llm: model, prompt: prompt });
 
-    const chain = new LLMChain({ llm: model, prompt: prompt });
-
-    const chain_res = await chain.call({ code: `(a,b) => { return a+b }` });
-    core.info(`result is ${res}`);
-    core.info(`Code Review: \n${chain_res.text}`);
+    // const chain_res = await chain.call({ code: `(a,b) => { return a+b }` });
+    // core.info(`result is ${res}`);
+    // core.info(`Code Review: \n${chain_res.text}`);
   } catch (error) {
     core.setFailed(error.message);
   }
