@@ -35,9 +35,9 @@ const ghurl = core.getInput("ghurl") || "https://github.com";
 })();
 
 function get_text_from_github(url) {
-  const rawUrl = url
-    .replace("github.com", "raw.githubusercontent.com")
-    .replace("/blob/", "/");
+  const rawUrl = url;
+  // .replace("github.com", "raw.githubusercontent.com")
+  // .replace("/blob/", "/");
   const headers = {
     Authorization: `Bearer ${ghtoken}`,
     Accept: "application/vnd.github+json",
