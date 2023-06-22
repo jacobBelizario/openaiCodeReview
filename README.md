@@ -1,8 +1,8 @@
 # openaiCodeReview
 action to do a code review with open api key and prompt that you want 
-# Sample Usage for now basic workflow basically it gets the file changes and asks the AI for a code review 
-# can also change to be on push 
-# needs OPEN_API_KEY set as secret of your repo GH_TOKEN is optional and would probably be depracated
+- Sample Usage for now basic workflow basically it gets the file changes and asks the AI for a code review 
+- can also change to be on push 
+- needs OPEN_API_KEY set as secret of your repo GH_TOKEN is optional and would probably be depracated
 
 name: OpenAI Code Review
 on:
