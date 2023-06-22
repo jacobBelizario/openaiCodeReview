@@ -29,13 +29,9 @@ const ghurl = core.getInput("ghurl") || "https://github.com";
       inputVariables: ["code"],
     });
 
-    const res = await prompt.format({ code: `(a,b) => { return a+b }` });
-    core.info(`Code: ${diff_code}`);
-    // const chain = new LLMChain({ llm: model, prompt: prompt });
-
-    // const chain_res = await chain.call({ code: `(a,b) => { return a+b }` });
-    // core.info(`result is ${res}`);
-    // core.info(`Code Review: \n${chain_res.text}`);
+    const chain = new LLMChain({ llm: model, prompt: prompt });
+    const chain_res = await chain.call({ code: diff_code });
+    core.info(`Code Review: \n${chain_res.text}`);
   } catch (error) {
     core.setFailed(error.message);
   }
