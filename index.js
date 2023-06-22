@@ -37,7 +37,7 @@ const diff_code = core.getInput("diff_code" || "");
       const parsed_url = `https://github.com/${ghurl}/blob/main/${file}`;
       core.info(parsed_url);
       review_code = getTextFromGitHub(parsed_url);
-      core.info(`file content ${review_code}`);
+      core.info(`file content ${JSON.stringify(review_code)}`);
     });
   } catch (error) {
     core.setFailed(error.message);
