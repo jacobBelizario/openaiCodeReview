@@ -25,10 +25,10 @@ const diff_code = core.getInput("diff_code" || "");
     const files = diff_code.split(" ");
     var output = "";
 
-    files.forEach(async (file) => {
+    for (const file of files) {
       const parsed_url = `https://github.com/${ghurl}/blob/main/${file}`;
       core.info(parsed_url);
-      review_code = await getTextFromGitHub(parsed_url);
+      const review_code = await getTextFromGitHub(parsed_url);
 
       const template =
         "Given this {code} Pretend you're a rigorous code reviewer who can analyze and comment on any code to prevent security violations, improve code quality, and enforce coding best practices.\n*CODE SUMMARY:*\nDescribe what type of code this is including the language and purpose.\n*CODE REVIEW:*\n*1. Observation: blah blah blah*\n        - Reasoning:\n        - Code Example:  ```\n        - Code Recommendation: ``` ";
@@ -39,8 +39,10 @@ const diff_code = core.getInput("diff_code" || "");
 
       const chain = new LLMChain({ llm: model, prompt: prompt });
       const chain_res = await chain.call({ code: review_code });
-      output += `SOURCE: ${parsed_url} \n` + `\n ${chain_res.text} \n`;
-    });
+      output += `SOURCE: ${parsed_url} \n${chain_res.text}\n\n`;
+    }
+
+    // Output after the loop
     core.info(`output: ${output}`);
     core.setOutput("openai_review", output);
   } catch (error) {
