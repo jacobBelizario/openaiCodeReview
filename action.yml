@@ -1,13 +1,9 @@
 name: "Open AI action code review"
 description: "given a api key and prompt do a code review during the pull request and post a comment"
 inputs:
-  diff_from:
-    default: "HEAD~1"
-    description: "Commit SHA from where the diff is done"
-    required: false
-  diff_to:
-    default: "HEAD"
-    description: "Commit SHA from where the diff is done"
+  gh_token:
+    default: "none"
+    description: "github access token"
     required: false
   ghurl:
     default: "https://github.com"

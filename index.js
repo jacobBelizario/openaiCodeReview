@@ -8,9 +8,7 @@ const { PromptTemplate } = require("langchain/prompts");
 const OPENAI_API_KEY =
   core.getInput("openai_api_key", { required: true }) || "";
 const AI_MODEL = core.getInput("openai_model") || "gpt-3.5-turbo";
-const DIFF_FROM = core.getInput("diff_from") || "HEAD~1";
-const DIFF_TO = core.getInput("diff_to") || "HEAD";
-const current_sha = core.getInput("current_sha") || "none";
+const ghtoken = core.getInput("gh_token" || "");
 const ghurl = core.getInput("ghurl") || "https://github.com";
 (async () => {
   try {
@@ -41,7 +39,7 @@ function get_text_from_github(url) {
     .replace("github.com", "raw.githubusercontent.com")
     .replace("/blob/", "/");
   const headers = {
-    Authorization: `Bearer ${GITHUB_ACCESS_TOKEN}`,
+    Authorization: `Bearer ${ghtoken}`,
     Accept: "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
   };
