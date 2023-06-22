@@ -10,12 +10,8 @@ const OPENAI_API_KEY =
   core.getInput("openai_api_key", { required: true }) || "";
 const AI_MODEL = core.getInput("openai_model") || "gpt-3.5-turbo";
 const diff_code = core.getInput("diff_code" || "");
-const ghtoken = core.getInput("gh_token" || "");
-const ghurl = core.getInput("ghurl") || "https://github.com";
 (async () => {
   try {
-    const parsed_url = `https://github.com/${ghurl}`;
-    // const ghtext = get_text_from_github(parsed_url);
     const model = new OpenAI({
       openAIApiKey: OPENAI_API_KEY,
       modelName: AI_MODEL,
@@ -32,33 +28,8 @@ const ghurl = core.getInput("ghurl") || "https://github.com";
     const chain = new LLMChain({ llm: model, prompt: prompt });
     const chain_res = await chain.call({ code: diff_code });
     core.info(`Code Review: \n${chain_res.text}`);
+    core.setOutput("openai_review", chain_res);
   } catch (error) {
     core.setFailed(error.message);
   }
 })();
-
-function get_text_from_github(url) {
-  const rawUrl = url
-    .replace("github.com", "raw.githubusercontent.com")
-    .replace("/blob/", "/");
-  const headers = {
-    Authorization: `Bearer ${ghtoken}`,
-    Accept: "application/vnd.github+json",
-    "X-GitHub-Api-Version": "2022-11-28",
-  };
-
-  return axios
-    .get(rawUrl, { headers })
-    .then((response) => {
-      if (response.status === 200) {
-        return response.data;
-      } else {
-        console.log(`Error retrieving GitHub text: ${response.status}`);
-        return null;
-      }
-    })
-    .catch((error) => {
-      console.log(`Error retrieving GitHub text: ${error.message}`);
-      return null;
-    });
-}
