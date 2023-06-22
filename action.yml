@@ -4,5 +4,5 @@ outputs:
   ai_comment:
     description: "Code review comment from AI"
 runs:
-  node: 16
+  using: node16
   main: index.js
