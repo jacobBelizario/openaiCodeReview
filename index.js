@@ -32,7 +32,7 @@ const diff_code = core.getInput("diff_code" || "");
     // const chain_res = await chain.call({ code: diff_code });
     // core.info(`Code Review: \n${chain_res.text}`);
     core.info(diff_code);
-    core.setOutput("openai_review", chain_res.text);
+    // core.setOutput("openai_review", chain_res.text);
   } catch (error) {
     core.setFailed(error.message);
   }
