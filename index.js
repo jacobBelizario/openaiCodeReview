@@ -1,8 +1,9 @@
 const core = require("@actions/core");
 const github = require("@actions/github");
-import { OpenAI } from "langchain/llms/openai";
-import { PromptTemplate } from "langchain/prompts";
 const axios = require("axios");
+
+const { OpenAI } = require("langchain/llms/openai");
+const { PromptTemplate } = require("langchain/prompts");
 
 const OPENAI_API_KEY =
   core.getInput("openai_api_key", { required: true }) || "";
