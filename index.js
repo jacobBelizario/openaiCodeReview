@@ -40,8 +40,9 @@ const diff_code = core.getInput("diff_code" || "");
       const chain = new LLMChain({ llm: model, prompt: prompt });
       const chain_res = await chain.call({ code: review_code });
       output = output + `SOURCE: ${parsed_url} \n` + `\n ${chain_res.text} \n`;
+      core.info(`output: ${output}`);
     });
-    core.info(`output: ${output}`);
+
     core.setOutput("openai_review", output);
   } catch (error) {
     core.setFailed(error.message);
