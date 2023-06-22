@@ -1,6 +1,7 @@
 const core = require("@actions/core");
 const github = require("@actions/github");
 const axios = require("axios");
+const { LLMChain } = require("langchain/chains");
 
 const { OpenAI } = require("langchain/llms/openai");
 const { PromptTemplate } = require("langchain/prompts");
@@ -28,7 +29,12 @@ const ghurl = core.getInput("ghurl") || "https://github.com";
     });
 
     const res = await prompt.format({ code: `(a,b) => { return a+b }` });
+
+    const chain = new LLMChain({ llm: model, prompt: prompt });
+
+    const chain_res = await chain.call({ code: `(a,b) => { return a+b }` });
     core.info(`result is ${res}`);
+    core.info(`Code Review: \n${chain_res}`);
   } catch (error) {
     core.setFailed(error.message);
   }
