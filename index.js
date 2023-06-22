@@ -34,7 +34,7 @@ const ghurl = core.getInput("ghurl") || "https://github.com";
 
     const chain_res = await chain.call({ code: `(a,b) => { return a+b }` });
     core.info(`result is ${res}`);
-    core.info(`Code Review: \n${chain_res}`);
+    core.info(`Code Review: \n${chain_res.text}`);
   } catch (error) {
     core.setFailed(error.message);
   }
