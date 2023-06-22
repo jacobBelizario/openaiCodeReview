@@ -9,6 +9,14 @@ inputs:
     default: "HEAD"
     description: "Commit SHA from where the diff is done"
     required: false
+  ghurl:
+    default: "https://github.com"
+    description: "github url"
+    required: false
+  current_sha:
+    default: "none"
+    description: "current sha"
+    required: false
 outputs:
   ai_comment:
     description: "Code review comment from AI"
