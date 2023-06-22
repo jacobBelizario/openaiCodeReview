@@ -9,6 +9,8 @@ const { PromptTemplate } = require("langchain/prompts");
 const OPENAI_API_KEY =
   core.getInput("openai_api_key", { required: true }) || "";
 const AI_MODEL = core.getInput("openai_model") || "gpt-3.5-turbo";
+const ghurl = core.getInput("ghurl");
+const GITHUB_ACCESS_TOKEN = core.getInput("gh_token");
 const diff_code = core.getInput("diff_code" || "");
 (async () => {
   try {
@@ -26,18 +28,43 @@ const diff_code = core.getInput("diff_code" || "");
     });
 
     const chain = new LLMChain({ llm: model, prompt: prompt });
-    const res = await prompt.format({ code: diff_code });
-    core.info(`Source query: ${res}`);
 
     // const chain_res = await chain.call({ code: diff_code });
     // core.info(`Code Review: \n${chain_res.text}`);
     const files = diff_code.split(" ");
 
     files.forEach((file) => {
-      core.info(`File: ${file}`);
+      const parsed_url = `https://github.com/${ghurl}/blob/main/${file}`;
+      review_code = getTextFromGitHub(parsed_url);
+      core.info(`file content ${review_code}`);
     });
-    // core.setOutput("openai_review", chain_res.text);
   } catch (error) {
     core.setFailed(error.message);
   }
 })();
+
+async function getTextFromGitHub(url) {
+  const rawUrl = url
+    .replace("github.com", "raw.githubusercontent.com")
+    .replace("/blob/", "/");
+
+  const headers = {
+    Authorization: `Bearer ${GITHUB_ACCESS_TOKEN}`,
+    Accept: "application/vnd.github+json",
+    "X-GitHub-Api-Version": "2022-11-28",
+  };
+
+  try {
+    const response = await fetch(rawUrl, { headers });
+
+    if (response.ok) {
+      return await response.text();
+    } else {
+      console.error(`Error retrieving GitHub text: ${response.status}`);
+      return null;
+    }
+  } catch (error) {
+    console.error("An error occurred:", error);
+    return null;
+  }
+}
