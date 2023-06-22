@@ -1,5 +1,14 @@
 name: "Open AI action code review"
 description: "given a api key and prompt do a code review during the pull request and post a comment"
+inputs:
+  diff_from:
+    default: "HEAD~1"
+    description: "Commit SHA from where the diff is done"
+    required: false
+  diff_to:
+    default: "HEAD"
+    description: "Commit SHA from where the diff is done"
+    required: false
 outputs:
   ai_comment:
     description: "Code review comment from AI"
