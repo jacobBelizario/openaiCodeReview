@@ -26,6 +26,9 @@ const diff_code = core.getInput("diff_code" || "");
     });
 
     const chain = new LLMChain({ llm: model, prompt: prompt });
+    const res = await prompt.format({ code: diff_code });
+    core.info(`Source query: ${res}`);
+
     const chain_res = await chain.call({ code: diff_code });
     core.info(`Code Review: \n${chain_res.text}`);
     core.setOutput("openai_review", chain_res.text);
