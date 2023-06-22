@@ -13,6 +13,7 @@
     "@actions/core": "^1.10.0",
     "@actions/github": "^5.1.1",
     "axios": "^1.4.0",
-    "langchain": "^0.0.96"
+    "langchain": "^0.0.96",
+    "node-fetch": "^3.3.1"
   }
 }
