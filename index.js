@@ -59,7 +59,7 @@ async function getTextFromGitHub(url) {
     const response = await axios.get(rawUrl, { headers });
 
     if (response.status === 200) {
-      return response.data;
+      return response.text;
     } else {
       console.error(`Error retrieving GitHub text: ${response.status}`);
       return null;
