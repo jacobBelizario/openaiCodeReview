@@ -30,7 +30,8 @@ const diff_code = core.getInput("diff_code" || "");
       core.info(parsed_url);
       const review_code = await getTextFromGitHub(parsed_url);
 
-      const template = `Given this {code} replace every " with ' Pretend you're a rigorous code reviewer who can analyze and comment on any code to prevent security violations, improve code quality, and enforce coding best practices.\n*CODE SUMMARY:*\nDescribe what type of code this is including the language and purpose.\n*CODE REVIEW:*\n*1. Observation: blah blah blah*\n        - Reasoning:\n        - Code Example:  \n        - Code Recommendation:  `;
+      const template =
+        "Given this {code} dont use ` and ``` Pretend you're a rigorous code reviewer who can analyze and comment on any code to prevent security violations, improve code quality, and enforce coding best practices.\n*CODE SUMMARY:*\nDescribe what type of code this is including the language and purpose.\n*CODE REVIEW:*\n*1. Observation: blah blah blah*\n        - Reasoning:\n        - Code Example:  \n        - Code Recommendation:  ";
       const prompt = new PromptTemplate({
         template: template,
         inputVariables: ["code"],
