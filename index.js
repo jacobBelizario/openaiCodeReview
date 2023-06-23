@@ -44,7 +44,8 @@ const diff_code = core.getInput("diff_code" || "");
 
     // Output after the loop
     core.info(output);
-    const parsedOutput = output.replaceAll("`", "'");
+    var parsedOutput = output.replaceAll("`", "'").replaceAll("$", "\\$");
+
     core.setOutput("openai_review", parsedOutput);
   } catch (error) {
     core.setFailed(error.message);
