@@ -36,7 +36,7 @@ const diff_code = core.getInput("diff_code" || "");
         template: template,
         inputVariables: ["code"],
       });
-
+      core.info(review_code);
       const chain = new LLMChain({ llm: model, prompt: prompt });
       const chain_res = await chain.call({ code: review_code });
       output += `SOURCE: ${parsed_url} \n${chain_res.text}\n\n`;
