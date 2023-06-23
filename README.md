@@ -1,7 +1,7 @@
 # openaiCodeReview
 
-Given changed files in a commit write a code review using open ai gpt3.5
-example usage whenever there is a pull request regardless of the branch
+- Given changed files in a commit write a code review using open ai gpt3.5
+- example usage whenever there is a pull request regardless of the branch
 ```
 name: OpenAI Code Review
 on:
