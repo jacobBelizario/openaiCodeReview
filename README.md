@@ -41,6 +41,6 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `'${{steps.OpenAIReview.outputs.openai_review}}'`
+              body: `${{steps.OpenAIReview.outputs.openai_review}}`
             })
 ```
