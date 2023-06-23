@@ -25,7 +25,7 @@ const diff_code = core.getInput("diff_code" || "");
     const files = diff_code.split(" ");
     var output = "";
 
-    for (const file of files) {
+    for (var file of files) {
       const parsed_url = `https://github.com/${ghurl}/blob/main/${file}`;
       core.info(parsed_url);
       const review_code = await getTextFromGitHub(parsed_url);
