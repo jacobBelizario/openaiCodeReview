@@ -1,8 +1,7 @@
 # openaiCodeReview
-action to do a code review with open api key and prompt that you want 
-- Sample Usage for now basic workflow basically it gets the file changes and asks the AI for a code review 
-- can also change to be on push 
-- needs OPEN_API_KEY set as secret of your repo GH_TOKEN is optional and would probably be depracated
+
+Given changed files in a commit write a code review using open ai gpt3.5
+example usage whenever there is a pull request regardless of the branch
 ```
 name: OpenAI Code Review
 on:
@@ -18,13 +17,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
         
-      - name: Get Commit Changes
-        id: commit_changes
+      - name: Get Committed Files
+        id: committed_files
         run: |
           git fetch --unshallow
-          CHANGES=$(git show --stat --patch --no-color --no-prefix ${{ github.sha }})
-          echo $CHANGES >> changes.txt
-          echo "::set-output name=changes::$(cat changes.txt)"
+          FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }})
+          echo $FILES >> committed_files.txt
+          echo "::set-output name=files::$(cat committed_files.txt)"
           
       - name: OpenAI PR Review
         id: OpenAIReview
@@ -33,7 +32,7 @@ jobs:
           gh_token: ${{ secrets.GH_ACCESS_TOKEN }}
           ghurl: ${{ github.repository }}
           openai_api_key: ${{ secrets.OPENAI_API_KEY }}
-          diff_code: ${{steps.commit_changes.outputs.changes}}
+          diff_code: ${{steps.committed_files.outputs.files}}
           
       - uses: actions/github-script@v6
         with:
@@ -42,6 +41,6 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `${{steps.OpenAIReview.outputs.openai_review}}`
+              body: `'${{steps.OpenAIReview.outputs.openai_review}}'`
             })
 ```
