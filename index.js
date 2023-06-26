@@ -2,33 +2,24 @@ const core = require("@actions/core");
 const github = require("@actions/github");
 const axios = require("axios");
 const { LLMChain } = require("langchain/chains");
-
-const { OpenAI } = require("langchain/llms/openai");
+const { ChatAnthropic } = require("langchain/chat_models/anthropic");
 const { PromptTemplate } = require("langchain/prompts");
 
 const OPENAI_API_KEY =
   core.getInput("openai_api_key", { required: true }) || "";
-const AI_MODEL = core.getInput("openai_model") || "gpt-3.5-turbo";
+const ANTHROPIC_API_KEY = core.getInput("anthropic_key", { required: true });
 const ghurl = core.getInput("ghurl");
 const GITHUB_ACCESS_TOKEN = core.getInput("gh_token");
 const diff_code = core.getInput("diff_code" || "");
 (async () => {
   try {
-    const model = new OpenAI({
-      openAIApiKey: OPENAI_API_KEY,
-      modelName: AI_MODEL,
+    const model = new ChatAnthropic({
       temperature: 0.9,
-    });
-    const messages = [];
-    const modelt = {
-      provider: "Anthropic",
-      name: "cd100",
-      fullname: "claude-v1-100k",
+      anthropicApiKey: ANTHROPIC_API_KEY, // In Node.js defaults to process.env.ANTHROPIC_API_KEY
+      modelName: "claude-v1-100k",
       completiontokens: 10000,
       modeltokens: 100000,
-    };
-    // const chain_res = await chain.call({ code: diff_code });
-    // core.info(`Code Review: \n${chain_res.text}`);
+    });
     const files = diff_code.split(" ");
     var output = "";
 
