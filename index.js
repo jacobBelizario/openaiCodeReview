@@ -23,23 +23,33 @@ const diff_file = core.getInput("diff_file" || "");
     const diffs = diff_file.split("diff --git");
     var output = "";
 
-    // for (var file of files) {
-    //   const parsed_url = `https://github.com/${ghurl}/blob/main/${file}`;
-    //   core.info(parsed_url);
-    //   const review_code = await getTextFromGitHub(parsed_url);
+    const codeQueries = [];
 
-    //   const template =
-    //     "Given this {code} Pretend you're a rigorous code reviewer who can analyze and comment on any code to prevent security violations, improve code quality, and enforce coding best practices.\n*CODE SUMMARY:*\nDescribe what type of code this is including the language and purpose.\n*CODE REVIEW:*\n*1. Observation: blah blah blah*\n        - Reasoning:\n        - Code Example:  \n        - Code Recommendation:  ";
-    //   const prompt = new PromptTemplate({
-    //     template: template,
-    //     inputVariables: ["code"],
-    //   });
-    //   core.info(review_code);
-    //   const chain = new LLMChain({ llm: model, prompt: prompt });
-    //   const chain_res = await chain.call({ code: review_code });
-    //   output += `SOURCE: ${parsed_url} \n${chain_res.text}\n\n`;
-    //   // second chain
-    // }
+    for (let i = 0; i < names.length; i++) {
+      const codeQuery = { diff: diffs[i], file: files[i] };
+      codeQueries.push(record);
+    }
+
+    for (var codeQuery of codeQueries) {
+      const parsed_url = `https://github.com/${ghurl}/blob/main/${codeQuery.file}`;
+      core.info(
+        `codequery diff is: ${codeQuery.diff} file is: ${codeQuery.file}`
+      );
+      core.info(parsed_url);
+      const review_code = await getTextFromGitHub(parsed_url);
+
+      const template =
+        "Given this {code} Pretend you're a rigorous code reviewer who can analyze and comment on any code to prevent security violations, improve code quality, and enforce coding best practices.\n*CODE SUMMARY:*\nDescribe what type of code this is including the language and purpose.\n*CODE REVIEW:*\n*1. Observation: blah blah blah*\n        - Reasoning:\n        - Code Example:  \n        - Code Recommendation:  ";
+      const prompt = new PromptTemplate({
+        template: template,
+        inputVariables: ["code"],
+      });
+      core.info(review_code);
+      const chain = new LLMChain({ llm: model, prompt: prompt });
+      const chain_res = await chain.call({ code: review_code });
+      output += `SOURCE: ${parsed_url} \n${chain_res.text}\n\n`;
+      // second chain
+    }
 
     // Output after the loop
     core.info(output);
