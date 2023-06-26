@@ -21,7 +21,7 @@ const diff_file = core.getInput("diff_file" || "");
     });
     const files = diff_code.split(" ");
     const tempdiff = diff_file.split("diff --git");
-    const diffs = tempdiff.shift();
+    const diffs = tempdiff.slice(1);
     var output = "";
 
     const codeQueries = [];
@@ -46,9 +46,9 @@ const diff_file = core.getInput("diff_file" || "");
         inputVariables: ["code"],
       });
       core.info(review_code);
-      const chain = new LLMChain({ llm: model, prompt: prompt });
-      const chain_res = await chain.call({ code: review_code });
-      output += `SOURCE: ${parsed_url} \n${chain_res.text}\n\n`;
+      // const chain = new LLMChain({ llm: model, prompt: prompt });
+      // const chain_res = await chain.call({ code: review_code });
+      // output += `SOURCE: ${parsed_url} \n${chain_res.text}\n\n`;
       // second chain
     }
 
