@@ -19,7 +19,14 @@ const diff_code = core.getInput("diff_code" || "");
       modelName: AI_MODEL,
       temperature: 0.9,
     });
-
+    const messages = [];
+    const modelt = {
+      provider: "Anthropic",
+      name: "cd100",
+      fullname: "claude-v1-100k",
+      completiontokens: 10000,
+      modeltokens: 100000,
+    };
     // const chain_res = await chain.call({ code: diff_code });
     // core.info(`Code Review: \n${chain_res.text}`);
     const files = diff_code.split(" ");
@@ -45,9 +52,9 @@ const diff_code = core.getInput("diff_code" || "");
     // Output after the loop
     core.info(output);
     var parsedOutput = output
-      .replace(/```/g, "'''")
+      .replace(/"""/g, "'''")
       .replace(/$/g, "\\$")
-      .replace(/`/g, "'");
+      .replace(/"/g, "'");
 
     core.setOutput("openai_review", parsedOutput);
   } catch (error) {
