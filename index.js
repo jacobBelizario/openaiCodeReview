@@ -61,7 +61,7 @@ const diff_file = core.getInput("diff_file" || "");
         code: review_code,
         diff: codeQuery.diff,
       });
-      output += `SOURCE: ${parsed_url} \n${chain_res.text}\n\nANALYSIS OF CODE CHANGES:\n${chain_res2.text}\n${strTemplate}`;
+      output += `<pre>SOURCE: ${parsed_url} \n${chain_res.text}\n\nANALYSIS OF CODE CHANGES:\n${chain_res2.text}\n\n${strTemplate}</pre>`;
     }
 
     // Output after the loop
@@ -72,7 +72,7 @@ const diff_file = core.getInput("diff_file" || "");
       .replace(/$/g, "\\$")
       .replace(/\$/g, "\\$");
 
-    core.setOutput("openai_review", parsedOutput);
+    core.setOutput("openai_review", output);
   } catch (error) {
     core.setFailed(error.message);
   }
