@@ -9,6 +9,7 @@ const ANTHROPIC_API_KEY = core.getInput("anthropic_key", { required: true });
 const ghurl = core.getInput("ghurl");
 const GITHUB_ACCESS_TOKEN = core.getInput("gh_token");
 const diff_code = core.getInput("diff_code" || "");
+const diff_file = core.getInput("diff_file" || "");
 (async () => {
   try {
     const model = new ChatAnthropic({
@@ -19,7 +20,7 @@ const diff_code = core.getInput("diff_code" || "");
       modeltokens: 100000,
     });
     const files = diff_code.split(" ");
-    core.info(`diff code:  ${diff_code}`);
+    core.info(`diff files:  ${diff_file}`);
     var output = "";
 
     for (var file of files) {
@@ -42,10 +43,7 @@ const diff_code = core.getInput("diff_code" || "");
 
     // Output after the loop
     core.info(output);
-    var parsedOutput = output
-      .replace(/"""/g, "'''")
-      .replace(/$/g, "\\$")
-      .replace(/"/g, "'");
+    var parsedOutput = output.replace(/"""/g, "'''").replace(/"/g, "'");
 
     core.setOutput("openai_review", parsedOutput);
   } catch (error) {
