@@ -55,13 +55,13 @@ const diff_file = core.getInput("diff_file" || "");
         template: template1,
         inputVariables: ["code", "diff"],
       });
-      const strTemplate = `PROMPT:\nBelow is a source code file followed by a DIFF showing what the developer has changed in the source code. Please describe the changes made by the developer, whether these changes improve code or make it worse. Explain your reasoning. \n\nFULL SOURCE CODE:${review_code} \n\nDIFF:${codeQuery.diff}`;
+      const strTemplate = `PROMPT:\nBelow is a source code file followed by a DIFF showing what the developer has changed in the source code. Please describe the changes made by the developer, whether these changes improve code or make it worse. Explain your reasoning. \n\nFULL SOURCE CODE:\n${review_code}\nDIFF\n:${codeQuery.diff}\n\n`;
       const chain2 = new LLMChain({ llm: model, prompt: prompt2 });
       const chain_res2 = await chain2.call({
         code: review_code,
         diff: codeQuery.diff,
       });
-      output += `SOURCE: ${parsed_url} \n${chain_res.text}\n\nANALYSIS OF CODE CHANGES:\n${chain_res2}\n${strTemplate}`;
+      output += `SOURCE: ${parsed_url} \n${chain_res.text}\n\nANALYSIS OF CODE CHANGES:\n${chain_res2.text}\n${strTemplate}`;
     }
 
     // Output after the loop
