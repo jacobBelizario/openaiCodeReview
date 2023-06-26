@@ -69,7 +69,8 @@ const diff_file = core.getInput("diff_file" || "");
     var parsedOutput = output
       .replace(/```/g, "'''")
       .replace(/`/g, "'")
-      .replace(/$/g, "\\$");
+      .replace(/$/g, "\\$")
+      .replace(/${/g, "\\${");
 
     core.setOutput("openai_review", parsedOutput);
   } catch (error) {
