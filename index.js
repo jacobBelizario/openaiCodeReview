@@ -67,10 +67,8 @@ const diff_file = core.getInput("diff_file" || "");
     // Output after the loop
     core.info(output);
     var parsedOutput = output
-      .replace(/```/g, "<pre>")
-      .replace(/```/g, "</pre>")
-      .replace(/`/g, "<pre>")
-      .replace(/`/g, "</pre>")
+      .replace(/```([\s\S]*?)```/g, "<pre>$1</pre>")
+      .replace(/`([\s\S]*?)`/g, "<pre>$1</pre>")
       .replace(/$/g, "\\$")
       .replace(/\$/g, "\\$");
 
