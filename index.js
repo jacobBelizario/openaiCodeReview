@@ -27,7 +27,7 @@ const diff_file = core.getInput("diff_file" || "");
 
     for (let i = 0; i < names.length; i++) {
       const codeQuery = { diff: diffs[i], file: files[i] };
-      codeQueries.push(record);
+      codeQueries.push(codeQuery);
     }
 
     for (var codeQuery of codeQueries) {
