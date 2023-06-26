@@ -20,7 +20,8 @@ const diff_file = core.getInput("diff_file" || "");
       modeltokens: 100000,
     });
     const files = diff_code.split(" ");
-    const diffs = diff_file.split("diff --git");
+    const tempdiff = diff_file.split("diff --git");
+    const diffs = tempdiff.shift();
     var output = "";
 
     const codeQueries = [];
