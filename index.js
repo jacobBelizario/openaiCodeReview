@@ -70,7 +70,7 @@ const diff_file = core.getInput("diff_file" || "");
       .replace(/```/g, "'''")
       .replace(/`/g, "'")
       .replace(/$/g, "\\$")
-      .replace(/${/g, "\\${");
+      .replace(/\$/g, "\\$");
 
     core.setOutput("openai_review", parsedOutput);
   } catch (error) {
