@@ -19,6 +19,7 @@ const diff_code = core.getInput("diff_code" || "");
       modeltokens: 100000,
     });
     const files = diff_code.split(" ");
+    core.info(`diff code:  ${diff_code}`);
     var output = "";
 
     for (var file of files) {
@@ -36,6 +37,7 @@ const diff_code = core.getInput("diff_code" || "");
       const chain = new LLMChain({ llm: model, prompt: prompt });
       const chain_res = await chain.call({ code: review_code });
       output += `SOURCE: ${parsed_url} \n${chain_res.text}\n\n`;
+      // second chain
     }
 
     // Output after the loop
