@@ -5,8 +5,6 @@ const { LLMChain } = require("langchain/chains");
 const { ChatAnthropic } = require("langchain/chat_models/anthropic");
 const { PromptTemplate } = require("langchain/prompts");
 
-const OPENAI_API_KEY =
-  core.getInput("openai_api_key", { required: true }) || "";
 const ANTHROPIC_API_KEY = core.getInput("anthropic_key", { required: true });
 const ghurl = core.getInput("ghurl");
 const GITHUB_ACCESS_TOKEN = core.getInput("gh_token");
