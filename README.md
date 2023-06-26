@@ -1,6 +1,6 @@
 # openaiCodeReview
 
-- Given changed files in a commit write a code review using open Anthropic claude
+- Given changed files in a commit write a code review using Anthropic claude
 - HOW TO USE: make a new yml in root dir of your repository under .github/workflow
 - Make sure the GH_ACCESS_TOKEN(github access token: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) and ANTHROPIC_API_KEY is under your repository secrets
 ```
