@@ -25,7 +25,7 @@ const diff_file = core.getInput("diff_file" || "");
     var output = `**ATTENTION:** _This is a Plaito AI-generated code review, designed to surface possible concerns related to
       information security, code quality, and adherence to coding best practices. Developers and Development
       Managers/Architects are encouraged to utilize this tool to enhance their code review process. However,
-      please remember that this AI assistance does not alleviate the need for thorough human evaluation._ \n`;
+      please remember that this AI assistance does not alleviate the need for thorough human evaluation._\n\n`;
 
     const codeQueries = [];
 
@@ -67,7 +67,8 @@ const diff_file = core.getInput("diff_file" || "");
 
       output += `<b>SOURCE:</b> \n${parsed_url}\n
       <b>ANALYSIS OF CODE CHANGES:</b> \n${chain_res2.text}\n
-      <b>ANALYSIS OF FULL SOURCE CODE:</b> \n${chain_res.text}\n<hr>`;
+      <b>ANALYSIS OF FULL SOURCE CODE:</b> \n${chain_res.text}\n
+      <hr>`;
     }
 
     // Output after the loop
@@ -75,7 +76,8 @@ const diff_file = core.getInput("diff_file" || "");
     var parsedOutput = output
       .replace(/```([\s\S]*?)```/g, "<pre>$1</pre>")
       .replace(/`([\s\S]*?)`/g, "<pre>$1</pre>")
-      .replace(/$/g, "\\$");
+      .replace(/$/g, "\\$")
+      .replace(/[^\S\n]+/g, "");
     // .replace(/\$/g, "\\$");
 
     core.setOutput("openai_review", parsedOutput);
