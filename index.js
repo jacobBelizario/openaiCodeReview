@@ -22,7 +22,10 @@ const diff_file = core.getInput("diff_file" || "");
     const files = diff_code.split(" ");
     const tempdiff = diff_file.split("diff --git");
     const diffs = tempdiff.slice(1);
-    var output = "";
+    var output = `<b>ATTENTION:</b> <i>This is a Plaito AI-generated code review, designed to surface possible concerns related to\n
+      information security, code quality, and adherence to coding best practices. Developers and Development\n
+      Managers/Architects are encouraged to utilize this tool to enhance their code review process. However,\n
+      please remember that this AI assistance does not alleviate the need for thorough human evaluation.</i>\n\n`;
 
     const codeQueries = [];
 
@@ -55,13 +58,16 @@ const diff_file = core.getInput("diff_file" || "");
         template: template1,
         inputVariables: ["code", "diff"],
       });
-      const strTemplate = `PROMPT:\nBelow is a source code file followed by a DIFF showing what the developer has changed in the source code. Please describe the changes made by the developer, whether these changes improve code or make it worse. Explain your reasoning. \n\nFULL SOURCE CODE:\n<pre>${review_code}</pre>\nDIFF:\n<pre>${codeQuery.diff}</pre>\n\n`;
       const chain2 = new LLMChain({ llm: model, prompt: prompt2 });
       const chain_res2 = await chain2.call({
         code: review_code,
         diff: codeQuery.diff,
       });
-      output += `SOURCE: ${parsed_url} \n${chain_res.text}\n\nANALYSIS OF CODE CHANGES:\n${chain_res2.text}\n\n${strTemplate}`;
+      // output += `SOURCE: ${parsed_url} \n${chain_res.text}\n\nANALYSIS OF CODE CHANGES:\n${chain_res2.text}\n\n${strTemplate}`;
+
+      output += `<b>SOURCE:</b>${parsed_url}\n
+      <b>ANALYSIS OF CODE CHANGES:</b>\n${chain_res2.text}\n
+      <b>ANALYSIS OF FULL SOURCE CODE:</b>${chain_res.text}\n<hr>`;
     }
 
     // Output after the loop
