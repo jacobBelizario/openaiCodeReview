@@ -77,7 +77,7 @@ const diff_file = core.getInput("diff_file" || "");
       .replace(/```([\s\S]*?)```/g, "<pre>$1</pre>")
       .replace(/`([\s\S]*?)`/g, "<pre>$1</pre>")
       .replace(/$/g, "\\$")
-      .replace(/[^\S\n]+/g, "");
+      .replace(/ {2,}/g, "");
     // .replace(/\$/g, "\\$");
 
     core.setOutput("openai_review", parsedOutput);
