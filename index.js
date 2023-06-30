@@ -22,10 +22,10 @@ const diff_file = core.getInput("diff_file" || "");
     const files = diff_code.split(" ");
     const tempdiff = diff_file.split("diff --git");
     const diffs = tempdiff.slice(1);
-    var output = `<b>ATTENTION:</b> <i>This is a Plaito AI-generated code review, designed to surface possible concerns related to\n
+    var output = `**ATTENTION:** ***This is a Plaito AI-generated code review, designed to surface possible concerns related to\n
       information security, code quality, and adherence to coding best practices. Developers and Development\n
       Managers/Architects are encouraged to utilize this tool to enhance their code review process. However,\n
-      please remember that this AI assistance does not alleviate the need for thorough human evaluation.</i>\n\n`;
+      please remember that this AI assistance does not alleviate the need for thorough human evaluation.***\n\n`;
 
     const codeQueries = [];
 
@@ -65,9 +65,9 @@ const diff_file = core.getInput("diff_file" || "");
       });
       // output += `SOURCE: ${parsed_url} \n${chain_res.text}\n\nANALYSIS OF CODE CHANGES:\n${chain_res2.text}\n\n${strTemplate}`;
 
-      output += `<b>SOURCE:</b>${parsed_url}\n
-      <b>ANALYSIS OF CODE CHANGES:</b>\n${chain_res2.text}\n
-      <b>ANALYSIS OF FULL SOURCE CODE:</b>${chain_res.text}\n<hr>`;
+      output += `**SOURCE:**${parsed_url}\n
+      **ANALYSIS OF CODE CHANGES:**\n${chain_res2.text}\n
+      **ANALYSIS OF FULL SOURCE CODE:**${chain_res.text}\n<hr>`;
     }
 
     // Output after the loop
@@ -75,8 +75,8 @@ const diff_file = core.getInput("diff_file" || "");
     var parsedOutput = output
       .replace(/```([\s\S]*?)```/g, "<pre>$1</pre>")
       .replace(/`([\s\S]*?)`/g, "<pre>$1</pre>")
-      .replace(/$/g, "\\$")
-      .replace(/\$/g, "\\$");
+      .replace(/$/g, "\\$");
+    // .replace(/\$/g, "\\$");
 
     core.setOutput("openai_review", parsedOutput);
   } catch (error) {
