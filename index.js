@@ -24,7 +24,7 @@ const diff_file = core.getInput("diff_file" || "");
     const tempdiff = diff_file.split("diff --git");
     const diffs = tempdiff.slice(1);
 
-    core.info(`tempdiff is ${tempdiff}`);
+    core.info(`diff_code is ${diff_code}`);
 
     var output = `**ATTENTION:** _This is a Plaito AI-generated code review, designed to surface possible concerns related to
       information security, code quality, and adherence to coding best practices. Developers and Development
