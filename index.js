@@ -23,7 +23,7 @@ const diff_file = core.getInput("diff_file" || "");
     core.info(`diff file is ${diff_file}`);
     const tempdiff = diff_file.split("diff --git");
     const diffs = tempdiff.slice(1);
-
+    const branch = diff_branch.slice(0, -1);
     core.info(`diff_code is ${diff_code}`);
 
     var output = `**ATTENTION:** _This is a Plaito AI-generated code review, designed to surface possible concerns related to
@@ -39,7 +39,7 @@ const diff_file = core.getInput("diff_file" || "");
     }
 
     for (var codeQuery of codeQueries) {
-      const parsed_url = `https://github.com/${ghurl}/blob/${diff_branch}/${codeQuery.file}`;
+      const parsed_url = `https://github.com/${ghurl}/blob/${branch}/${codeQuery.file}`;
       const main_url = `https://github.com/${ghurl}/blob/main/${codeQuery.file}`;
       core.info(
         `codequery diff is: ${codeQuery.diff} file is: ${codeQuery.file}`
