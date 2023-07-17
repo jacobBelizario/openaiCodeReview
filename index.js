@@ -23,6 +23,9 @@ const diff_file = core.getInput("diff_file" || "");
     core.info(`diff file is ${diff_file}`);
     const tempdiff = diff_file.split("diff --git");
     const diffs = tempdiff.slice(1);
+
+    core.info(`tempdiff is ${tempdiff}`);
+
     var output = `**ATTENTION:** _This is a Plaito AI-generated code review, designed to surface possible concerns related to
       information security, code quality, and adherence to coding best practices. Developers and Development
       Managers/Architects are encouraged to utilize this tool to enhance their code review process. However,
