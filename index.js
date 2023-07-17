@@ -48,7 +48,7 @@ const diff_file = core.getInput("diff_file" || "");
       const base_code = await getTextFromGitHub(main_url);
       core.info(`base code: ${base_code}`);
       core.info(`parsed_url is  ${parsed_url}`);
-
+      core.info(`main url is ${main_url}`);
       const template =
         "Given this {code} Pretend you're a rigorous code reviewer who can analyze and comment on any code to prevent security violations, improve code quality, and enforce coding best practices. Use ``` syntax for any code blocks. \n*CODE SUMMARY:*\nDescribe what type of code this is including the language and purpose.\n*CODE REVIEW:*\n*1. Observation: blah blah blah*\n        - Reasoning:\n        - Code Example:  \n        - Code Recommendation:  ";
       const prompt = new PromptTemplate({
